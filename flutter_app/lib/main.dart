@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'models/user_profile.dart';
 import 'screens/auth_screen.dart';
 import 'screens/home_shell.dart';
-import 'services/account_store.dart';
 import 'theme/app_theme.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await AccountStore.instance.load();
   runApp(const MyApp());
 }
 
@@ -25,12 +23,14 @@ class _MyAppState extends State<MyApp> {
   String? _userEmail;
   UserProfile? _profile;
 
-  void _handleAuthenticated(String email, {String displayName = ''}) {
+  void _handleAuthSuccess(String email, {required String displayName}) {
     final e = email.trim();
     setState(() {
       _loggedIn = true;
       _userEmail = e;
-      _profile = UserProfile.fromEmail(e, displayName: displayName);
+      _profile = UserProfile.fromEmail(e).copyWith(
+        displayName: displayName.trim(),
+      );
     });
   }
 
@@ -53,7 +53,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Mobilni',
+      title: 'Luggage Checker',
       debugShowCheckedModeBanner: false,
       themeMode: _themeMode,
       theme: AppTheme.light(),
@@ -109,7 +109,7 @@ class _MyAppState extends State<MyApp> {
               )
             : AuthScreen(
                 key: const ValueKey('auth'),
-                onAuthenticated: _handleAuthenticated,
+                onSuccess: _handleAuthSuccess,
               ),
       ),
     );

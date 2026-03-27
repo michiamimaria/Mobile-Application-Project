@@ -17,14 +17,8 @@ class UserProfile {
   final String location;
   final Uint8List? avatarBytes;
 
-  factory UserProfile.fromEmail(
-    String email, {
-    String displayName = '',
-  }) =>
-      UserProfile(
-        email: email.trim(),
-        displayName: displayName.trim(),
-      );
+  factory UserProfile.fromEmail(String email) =>
+      UserProfile(email: email.trim());
 
   UserProfile copyWith({
     String? email,

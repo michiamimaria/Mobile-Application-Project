@@ -40,7 +40,4 @@ yarn-error.*
 /ios
 /android
 
-# Editor
 .vscode/
-
-# Flutter app (flutter_app/ has its own .gitignore for build/, .dart_tool/, etc.)

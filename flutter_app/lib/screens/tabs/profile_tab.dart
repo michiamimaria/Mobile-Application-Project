@@ -431,7 +431,7 @@ class _ProfileTabState extends State<ProfileTab> {
         const SizedBox(height: 12),
         Center(
           child: Text(
-            'Mobilni v1.0.0',
+            'Luggage Checker v1.0.0',
             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   color: scheme.outline,
                 ),

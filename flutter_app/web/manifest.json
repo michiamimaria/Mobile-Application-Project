@@ -1,11 +1,11 @@
 {
-    "name": "flutter_app",
-    "short_name": "flutter_app",
+    "name": "Luggage Checker",
+    "short_name": "Luggage",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#2563EB",
     "theme_color": "#2563EB",
-    "description": "A new Flutter project.",
+    "description": "Track your luggage and check trips quickly.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
