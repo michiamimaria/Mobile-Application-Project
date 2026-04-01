@@ -85,63 +85,68 @@ export default function AddLuggageScreen() {
         notifications on this device.
       </Text>
 
-      <Text style={styles.label}>Name</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="e.g. Blue Samsonite"
-        placeholderTextColor={colors.textMuted}
-        value={name}
-        onChangeText={setName}
-      />
+      <View style={styles.sectionCard}>
+        <Text style={styles.sectionTitle}>Tag details</Text>
+        <Text style={styles.label}>Name</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="e.g. Blue Samsonite"
+          placeholderTextColor={colors.textMuted}
+          value={name}
+          onChangeText={setName}
+        />
 
-      <Text style={styles.label}>Tracker type</Text>
-      <View style={styles.row}>
-        <Pressable
-          onPress={() => setTrackerType('luggageTag')}
-          style={[
-            styles.pill,
-            trackerType === 'luggageTag' && styles.pillActive,
-          ]}
-        >
-          <Text
-            style={[
-              styles.pillText,
-              trackerType === 'luggageTag' && styles.pillTextActive,
-            ]}
-          >
-            Luggage tag
-          </Text>
-        </Pressable>
-        <Pressable
-          onPress={() => setTrackerType('airTag')}
-          style={[styles.pill, trackerType === 'airTag' && styles.pillActive]}
-        >
-          <Text
-            style={[
-              styles.pillText,
-              trackerType === 'airTag' && styles.pillTextActive,
-            ]}
-          >
-            AirTag
-          </Text>
-        </Pressable>
-      </View>
-
-      <Text style={styles.label}>Marker color</Text>
-      <View style={styles.colors}>
-        {luggagePalette.map((c) => (
+        <Text style={styles.label}>Tracker type</Text>
+        <View style={styles.row}>
           <Pressable
-            key={c}
-            onPress={() => setColor(c)}
+            onPress={() => setTrackerType('luggageTag')}
             style={[
-              styles.colorChip,
-              { backgroundColor: c },
-              color === c && styles.colorChipActive,
+              styles.pill,
+              trackerType === 'luggageTag' && styles.pillActive,
             ]}
-          />
-        ))}
+          >
+            <Text
+              style={[
+                styles.pillText,
+                trackerType === 'luggageTag' && styles.pillTextActive,
+              ]}
+            >
+              Luggage tag
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => setTrackerType('airTag')}
+            style={[styles.pill, trackerType === 'airTag' && styles.pillActive]}
+          >
+            <Text
+              style={[
+                styles.pillText,
+                trackerType === 'airTag' && styles.pillTextActive,
+              ]}
+            >
+              AirTag
+            </Text>
+          </Pressable>
+        </View>
+
+        <Text style={styles.label}>Marker color</Text>
+        <View style={styles.colors}>
+          {luggagePalette.map((c) => (
+            <Pressable
+              key={c}
+              onPress={() => setColor(c)}
+              style={[
+                styles.colorChip,
+                { backgroundColor: c },
+                color === c && styles.colorChipActive,
+              ]}
+            />
+          ))}
+        </View>
       </View>
 
+      <View style={styles.sectionCard}>
+      <Text style={styles.sectionTitle}>Location and status</Text>
       <Text style={styles.label}>Status</Text>
       <View style={styles.row}>
         {(['tracking', 'idle', 'alert'] as const).map((s) => (
@@ -184,7 +189,10 @@ export default function AddLuggageScreen() {
         <MaterialCommunityIcons name="crosshairs-gps" size={20} color={colors.primary} />
         <Text style={styles.locBtnText}>Use my current location</Text>
       </Pressable>
+      </View>
 
+      <View style={styles.sectionCard}>
+      <Text style={styles.sectionTitle}>Reminder</Text>
       <View style={styles.reminderRow}>
         <Text style={styles.label}>Reminder</Text>
         <Switch value={reminderOn} onValueChange={setReminderOn} />
@@ -216,6 +224,7 @@ export default function AddLuggageScreen() {
           )}
         </>
       )}
+      </View>
 
       <Pressable style={styles.save} onPress={submit}>
         <Text style={styles.saveText}>Save luggage tag</Text>
@@ -244,6 +253,20 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     marginBottom: 20,
     lineHeight: 20,
+  },
+  sectionCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    padding: 12,
+    marginBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: colors.primaryDark,
+    marginBottom: 8,
   },
   label: {
     fontSize: 13,

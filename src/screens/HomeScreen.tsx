@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ActivityIndicator,
   FlatList,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -40,6 +41,8 @@ function trackerLabel(item: LuggageItem) {
 
 export default function HomeScreen() {
   const { items, loading, removeItem } = useLuggage();
+  const trackingCount = items.filter((i) => i.status === 'tracking').length;
+  const alertCount = items.filter((i) => i.status === 'alert').length;
 
   if (loading) {
     return (
@@ -56,6 +59,20 @@ export default function HomeScreen() {
         Tagged bags and last known map positions. Pull the map tab to see all
         markers together.
       </Text>
+      <View style={styles.metricsRow}>
+        <View style={styles.metricCard}>
+          <Text style={styles.metricValue}>{items.length}</Text>
+          <Text style={styles.metricLabel}>Total tags</Text>
+        </View>
+        <View style={styles.metricCard}>
+          <Text style={styles.metricValue}>{trackingCount}</Text>
+          <Text style={styles.metricLabel}>Tracking</Text>
+        </View>
+        <View style={styles.metricCard}>
+          <Text style={styles.metricValue}>{alertCount}</Text>
+          <Text style={styles.metricLabel}>Alerts</Text>
+        </View>
+      </View>
       <FlatList
         data={items}
         keyExtractor={(item) => item.id}
@@ -136,6 +153,32 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
     gap: 12,
   },
+  metricsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 14,
+  },
+  metricCard: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  metricValue: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.primaryDark,
+    lineHeight: 24,
+  },
+  metricLabel: {
+    marginTop: 2,
+    fontSize: 12,
+    color: colors.textMuted,
+    fontWeight: '600',
+  },
   card: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -148,7 +191,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.06,
     shadowRadius: 4,
-    elevation: 2,
+    elevation: Platform.OS === 'android' ? 2 : 0,
   },
   dot: {
     width: 12,

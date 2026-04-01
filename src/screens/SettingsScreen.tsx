@@ -11,7 +11,11 @@ import { useLuggage } from '../context/LuggageContext';
 import { colors } from '../constants/theme';
 import { requestNotificationPermissions } from '../hooks/useNotifications';
 
-export default function SettingsScreen() {
+type Props = {
+  onSignOut?: () => Promise<void> | void;
+};
+
+export default function SettingsScreen({ onSignOut }: Props) {
   const { settings, setSettings } = useLuggage();
   const [permissionHint, setPermissionHint] = useState<string | null>(null);
 
@@ -82,6 +86,13 @@ export default function SettingsScreen() {
         <MaterialCommunityIcons name="bell-ring-outline" size={22} color="#fff" />
         <Text style={styles.btnText}>Request notification permission</Text>
       </Pressable>
+
+      {onSignOut && (
+        <Pressable style={styles.signOutBtn} onPress={() => onSignOut()}>
+          <MaterialCommunityIcons name="logout" size={20} color={colors.danger} />
+          <Text style={styles.signOutText}>Sign out</Text>
+        </Pressable>
+      )}
 
       {permissionHint && (
         <Text style={styles.hint}>{permissionHint}</Text>
@@ -170,6 +181,23 @@ const styles = StyleSheet.create({
     color: colors.text,
     marginTop: 14,
     lineHeight: 20,
+  },
+  signOutBtn: {
+    marginTop: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderWidth: 1,
+    borderColor: '#FECACA',
+    backgroundColor: '#FEF2F2',
+    borderRadius: 12,
+    paddingVertical: 12,
+  },
+  signOutText: {
+    color: colors.danger,
+    fontWeight: '700',
+    fontSize: 15,
   },
   note: {
     flexDirection: 'row',
