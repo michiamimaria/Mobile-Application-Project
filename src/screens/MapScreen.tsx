@@ -6,11 +6,11 @@ import {
   Text,
   View,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE, Region } from 'react-native-maps';
 import * as Location from 'expo-location';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLuggage } from '../context/LuggageContext';
 import { colors } from '../constants/theme';
+import type { Region } from 'react-native-maps';
 
 const DEFAULT_REGION: Region = {
   latitude: 41.9965,
@@ -21,7 +21,12 @@ const DEFAULT_REGION: Region = {
 
 export default function MapScreen() {
   const { items } = useLuggage();
-  const mapRef = useRef<MapView>(null);
+  const mapRef = useRef<any>(null);
+  const isWeb = Platform.OS === 'web';
+  const maps = isWeb ? null : require('react-native-maps');
+  const MapView = maps?.default;
+  const Marker = maps?.Marker;
+  const PROVIDER_GOOGLE = maps?.PROVIDER_GOOGLE;
 
   useEffect(() => {
     if (items.length === 0 || !mapRef.current) return;
@@ -55,7 +60,7 @@ export default function MapScreen() {
     );
   };
 
-  if (Platform.OS === 'web') {
+  if (isWeb) {
     return (
       <View style={styles.webFallback}>
         <MaterialCommunityIcons

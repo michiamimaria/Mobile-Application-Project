@@ -34,6 +34,10 @@ function statusLabel(s: LuggageItem['status']) {
   }
 }
 
+function trackerLabel(item: LuggageItem) {
+  return item.trackerType === 'airTag' ? 'AirTag' : 'Luggage tag';
+}
+
 export default function HomeScreen() {
   const { items, loading, removeItem } = useLuggage();
 
@@ -74,6 +78,7 @@ export default function HomeScreen() {
             <View style={[styles.dot, { backgroundColor: item.color }]} />
             <View style={styles.cardBody}>
               <Text style={styles.cardTitle}>{item.name}</Text>
+              <Text style={styles.cardTag}>{trackerLabel(item)}</Text>
               <Text style={styles.cardMeta}>
                 {statusLabel(item.status)} · {formatTime(item.lastUpdated)}
               </Text>
@@ -163,6 +168,12 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: colors.textMuted,
     marginTop: 2,
+  },
+  cardTag: {
+    fontSize: 12,
+    color: colors.primary,
+    marginTop: 2,
+    fontWeight: '600',
   },
   coords: {
     fontSize: 12,

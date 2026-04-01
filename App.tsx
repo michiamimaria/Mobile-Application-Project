@@ -8,6 +8,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Notifications from 'expo-notifications';
+import { Platform } from 'react-native';
 import { LuggageProvider } from './src/context/LuggageContext';
 import HomeScreen from './src/screens/HomeScreen';
 import MapScreen from './src/screens/MapScreen';
@@ -33,6 +34,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    if (Platform.OS === 'web') return;
     const sub = Notifications.addNotificationResponseReceivedListener(() => {
       onNotificationOpen();
     });

@@ -14,11 +14,12 @@ import * as Location from 'expo-location';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useLuggage } from '../context/LuggageContext';
 import { colors, luggagePalette } from '../constants/theme';
-import type { LuggageStatus } from '../types';
+import type { LuggageStatus, TrackerType } from '../types';
 
 export default function AddLuggageScreen() {
   const { addItem } = useLuggage();
   const [name, setName] = useState('');
+  const [trackerType, setTrackerType] = useState<TrackerType>('luggageTag');
   const [color, setColor] = useState(luggagePalette[0]);
   const [status, setStatus] = useState<LuggageStatus>('tracking');
   const [lat, setLat] = useState('41.9965');
@@ -61,6 +62,7 @@ export default function AddLuggageScreen() {
     }
     await addItem({
       name: trimmed,
+      trackerType,
       color,
       latitude,
       longitude,
@@ -91,6 +93,39 @@ export default function AddLuggageScreen() {
         value={name}
         onChangeText={setName}
       />
+
+      <Text style={styles.label}>Tracker type</Text>
+      <View style={styles.row}>
+        <Pressable
+          onPress={() => setTrackerType('luggageTag')}
+          style={[
+            styles.pill,
+            trackerType === 'luggageTag' && styles.pillActive,
+          ]}
+        >
+          <Text
+            style={[
+              styles.pillText,
+              trackerType === 'luggageTag' && styles.pillTextActive,
+            ]}
+          >
+            Luggage tag
+          </Text>
+        </Pressable>
+        <Pressable
+          onPress={() => setTrackerType('airTag')}
+          style={[styles.pill, trackerType === 'airTag' && styles.pillActive]}
+        >
+          <Text
+            style={[
+              styles.pillText,
+              trackerType === 'airTag' && styles.pillTextActive,
+            ]}
+          >
+            AirTag
+          </Text>
+        </Pressable>
+      </View>
 
       <Text style={styles.label}>Marker color</Text>
       <View style={styles.colors}>
